@@ -1,11 +1,13 @@
 package vako.wildflydevelopment.chapter4.boundary;
 
+import org.jboss.logging.Logger;
 import vako.wildflydevelopment.chapter4.entity.Seat;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.*;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,7 +20,10 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 @Startup
 @AccessTimeout(value = 5, unit = TimeUnit.MINUTES)
-public class TheatreBox {
+public class TheatreBox implements Serializable {
+
+    @Inject
+    private Logger logger;
 
     @Inject
     private Event<Seat> seatEvent;
@@ -38,11 +43,18 @@ public class TheatreBox {
         seats = new HashMap<>();
         int id = 0;
         for (int i = 0; i < 5; i++) {
-            addSeat(new Seat(++id, "Stalls", 40));
-            addSeat(new Seat(++id, "Circle", 20));
-            addSeat(new Seat(++id, "Balcony", 10));
+            final Seat seat = new Seat(++id, "Stalls", 40);
+            addSeat(seat);
         }
-//        logger.info("Seat Map constructed.");
+        for (int i = 0; i < 5; i++) {
+            final Seat seat = new Seat(++id, "Circle", 20);
+            addSeat(seat);
+        }
+        for (int i = 0; i < 5; i++) {
+            final Seat seat = new Seat(++id, "Balcony", 10);
+            addSeat(seat);
+        }
+        logger.info("Seat Map constructed.");
     }
 
     private void addSeat(Seat seat) {
@@ -62,9 +74,6 @@ public class TheatreBox {
     @Lock(LockType.READ)
     private Seat getSeat(int seatId) {
         final Seat seat = seats.get(seatId);
-        if (seat == null) {
-//            throw new NoSuchSeatException("Seat " + seatId + " does not exist!");
-        }
         return seat;
     }
 }
