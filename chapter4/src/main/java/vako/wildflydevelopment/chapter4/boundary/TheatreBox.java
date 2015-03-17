@@ -51,7 +51,7 @@ public class TheatreBox implements Serializable {
             addSeat(seat);
         }
         for (int i = 0; i < 5; i++) {
-            final Seat seat = new Seat(++id, "Balcony", 10);
+            final Seat seat = new Seat(++id, "Balcony", 15);
             addSeat(seat);
         }
         logger.info("Seat Map constructed.");
@@ -73,7 +73,6 @@ public class TheatreBox implements Serializable {
 
     @Lock(LockType.READ)
     private Seat getSeat(int seatId) {
-        final Seat seat = seats.get(seatId);
-        return seat;
+        return seats.get(seatId);
     }
 }

@@ -21,6 +21,8 @@ import java.util.Collection;
 // for two commonly used annotations: @Named and @RequestScoped
 public class TheatreInfo {
 
+    int i = 0;
+
     @Inject
     private TheatreBox box;
 
@@ -48,8 +50,9 @@ public class TheatreInfo {
      */
     @Produces
     @Named
-    public Collection<Seat> getSeats() {
+    public Collection<Seat> getSeats() {/**/
 //        return Lists.newArrayList(seats);
+//        System.out.println("getSeats() " + ++i);
         return new ArrayList<>(seats);
     }
 
