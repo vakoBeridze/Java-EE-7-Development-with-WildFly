@@ -48,7 +48,7 @@ public class TheatreInfo {
      */
     @Produces
     @Named
-    public Collection<Seat> geQtSeats() {
+    public Collection<Seat> getSeats() {
 //        return Lists.newArrayList(seats);
         return new ArrayList<>(seats);
     }
